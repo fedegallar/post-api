@@ -28,6 +28,9 @@ class EnsureUserApiSession
             $request->merge(['user' => (array) $response->object()]);
             return $next($request);
         }
+        if($response->status() == 401) {
+            return response()->json(["error"=> "Unauthorized"],401);
+        }
         return response()->json(["error" => "There was an error checking current user"], $response->status());
     }
 }
